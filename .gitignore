@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+config.yaml
+credentials.json
+data/
+voices/
+.pytest_cache/

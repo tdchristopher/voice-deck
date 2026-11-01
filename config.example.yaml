@@ -1,0 +1,53 @@
+# Voice Deck configuration. Copy to config.yaml and edit.
+
+assistant_name: Deck
+
+# How you start talking:
+#   keyboard - press Enter (best for first tests over SSH)
+#   wakeword - say the wake word (needs openWakeWord, see README)
+#   gpio     - press a physical button wired to a GPIO pin
+trigger: keyboard
+
+wakeword:
+  model: hey_jarvis        # built-in openWakeWord model (non-commercial license)
+  threshold: 0.5
+
+gpio:
+  button_pin: 17           # BCM pin number; button between this pin and GND
+
+audio:
+  sample_rate: 16000
+  input_device: null       # null = system default; run `python -m voicedeck --list-devices`
+  output_device: null
+  silence_seconds: 0.8     # stop recording after this much silence
+  max_seconds: 12
+  energy_threshold: null   # null = auto-calibrate to room noise on start
+
+stt:
+  model: base.en           # tiny.en is faster, base.en is more accurate
+  compute_type: int8
+
+llm:
+  host: http://localhost:11434
+  model: qwen3:1.7b        # Apache 2.0. Try qwen3:0.6b for speed, qwen3:4b for accuracy
+  timeout: 90
+
+tts:
+  voice: voices/en_US-lessac-medium.onnx
+
+slack:
+  enabled: true
+  default_channel: general
+  # Spoken channel name -> Slack channel ID (right-click channel > Copy link; the ID starts with C).
+  # Names not listed here are looked up automatically.
+  channels:
+    general: C0123456789
+
+calendar:
+  enabled: true
+  calendar_id: primary
+  timezone: America/Los_Angeles
+  default_duration_minutes: 30
+
+reminders:
+  file: data/reminders.json

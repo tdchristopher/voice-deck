@@ -1,0 +1,12 @@
+numpy
+sounddevice>=0.4
+faster-whisper>=1.0
+piper-tts>=1.2
+requests
+pyyaml
+python-dotenv
+dateparser>=1.2
+slack_sdk>=3.20
+google-api-python-client
+google-auth-oauthlib
+google-auth-httplib2
