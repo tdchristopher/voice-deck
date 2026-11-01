@@ -1,6 +1,6 @@
 # Voice Deck
 
-A voice-first assistant that runs **locally on a Raspberry Pi 5**, built entirely from free, open-source tools. Speak a command, and it posts to Slack, reads or adds Google Calendar events, sets reminders, or answers questions. Speech recognition, the language model, and the voice all run on the Pi.
+A voice-first assistant for **Raspberry Pi 5** with local AI, built from free, open-source tools. Speak a command, and it posts to Slack, reads or adds Google Calendar events, sets reminders, or answers questions. Speech recognition, the language model, and the voice all run on the Pi. Slack and Calendar need an internet connection.
 
 ```
  trigger ─▶ mic ─▶ Whisper ─▶ router ─┬─ regex (instant) ─┐
@@ -33,16 +33,50 @@ Anything that sends or changes something (Slack posts, calendar events) is alway
 - Optional: a push button between **GPIO17** and **GND**
 - Recommended: an active cooler and an SSD
 
+## What needs internet
+
+| Works offline | Needs internet |
+|---|---|
+| Speech recognition, the language model, the voice | Posting to Slack and "what did I miss?" |
+| Reminders and chat answers | Reading or adding calendar events |
+| | The first install (downloads everything) |
+
 ## Quick start
 
+### 1. Get the code onto your Pi
+
+This repo is private, so the Pi needs to sign in to GitHub first. The easiest way is the GitHub CLI:
+
 ```bash
-git clone <your-repo-url> voice-deck   # or unzip the download
+sudo apt-get install -y gh
+gh auth login          # choose GitHub.com > HTTPS > Login with a web browser
+gh repo clone tdchristopher/voice-deck
 cd voice-deck
+```
+
+Without the GitHub CLI, you can use a personal access token instead:
+
+1. On GitHub, go to **Settings > Developer settings > Personal access tokens > Fine-grained tokens** and create a token with **read access to Contents** for this repo.
+2. On the Pi, run `git clone https://github.com/tdchristopher/voice-deck`. Use your GitHub username, and paste the token as the password.
+
+If the repo is public, `git clone https://github.com/tdchristopher/voice-deck` works without signing in.
+
+### 2. Install
+
+```bash
 chmod +x install.sh scripts/*.sh
 ./install.sh
 ```
 
 The installer sets up Ollama, the `qwen3:1.7b` model, Whisper, Piper, and a Python environment. It takes about 10–20 minutes the first time.
+
+### 3. Update later
+
+```bash
+cd voice-deck
+git pull
+.venv/bin/pip install -r requirements.txt   # picks up any new dependencies
+```
 
 **Test by typing first** (no mic needed):
 
